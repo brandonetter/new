@@ -1,16 +1,47 @@
 <script>
     import { metatags } from '@roxi/routify'
-    
+    import {onMount} from 'svelte';
+    import {password} from './../stores.js'
+    let passwordValue;
+    password.subscribe(value => {
+		passwordValue = value ||'';
+	});
     metatags.title = 'My Routify app'
     metatags.description = 'Description coming soon...'
+    let response;
+    onMount(async ()=>{
+        response = await fetch("/api/auth/",{
+            method:"POST",
+            mode: 'cors',
+            headers:{"content-type":"application/json"},
+            body:JSON.stringify({password:passwordValue}),
+        });
+        response = await response.json();
+
+    });
+    const checkPass = ()=>{
+        (async ()=>{
+        response = await fetch("/api/auth/",{
+            method:"POST",
+            mode: 'cors',
+            headers:{"content-type":"application/json"},
+            body:JSON.stringify({password:passwordValue}),
+        });
+        response = await response.json();
+
+    })();
+    }
+    $:{
+        passwordValue += '';
+        checkPass();
+    }
+
+
+
 </script>
-
-<h1>Routify Starter Template</h1>
-
-<p>
-    To see an example app that shows off a lot of Routify's features, go to <a href="/example">/example</a>
-</p>
-
-<p>
-    This template is ready to be used in production! just delete the example app at: src/pages/example
-</p>
+{#if response?.auth == true}
+{JSON.stringify(response)}
+{:else}
+No
+{/if}
+<input bind:value={passwordValue}/>

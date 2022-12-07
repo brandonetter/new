@@ -1,11 +1,11 @@
 
 /**
  * @roxi/routify 2.18.8
- * File generated Tue Dec 06 2022 21:51:43 GMT-0500 (Eastern Standard Time)
+ * File generated Wed Dec 07 2022 04:19:05 GMT-0500 (Eastern Standard Time)
  */
 
 export const __version = "2.18.8"
-export const __timestamp = "2022-12-07T02:51:43.533Z"
+export const __timestamp = "2022-12-07T09:19:05.612Z"
 
 //buildRoutes
 import { buildClientTree } from "@roxi/routify/runtime/buildRoutes"
@@ -1428,6 +1428,104 @@ export const _tree = {
       "path": "/index",
       "id": "_index",
       "component": () => import('../src/pages/index.svelte').then(m => m.default)
+    },
+    {
+      "isFile": false,
+      "isDir": true,
+      "file": "login",
+      "filepath": "/login",
+      "name": "login",
+      "ext": "",
+      "badExt": false,
+      "absolutePath": "/home/brandon/sveltekit/svelteseq/src/pages/login",
+      "children": [
+        {
+          "isFile": true,
+          "isDir": false,
+          "file": "index.svelte",
+          "filepath": "/login/index.svelte",
+          "name": "index",
+          "ext": "svelte",
+          "badExt": false,
+          "absolutePath": "/home/brandon/sveltekit/svelteseq/src/pages/login/index.svelte",
+          "importPath": "../src/pages/login/index.svelte",
+          "isLayout": false,
+          "isReset": false,
+          "isIndex": true,
+          "isFallback": false,
+          "isPage": true,
+          "ownMeta": {},
+          "meta": {
+            "recursive": true,
+            "preload": "proximity",
+            "prerender": true
+          },
+          "path": "/login/index",
+          "id": "_login_index",
+          "component": () => import('../src/pages/login/index.svelte').then(m => m.default)
+        }
+      ],
+      "isLayout": false,
+      "isReset": false,
+      "isIndex": false,
+      "isFallback": false,
+      "isPage": false,
+      "ownMeta": {},
+      "meta": {
+        "recursive": true,
+        "preload": "proximity",
+        "prerender": true
+      },
+      "path": "/login"
+    },
+    {
+      "isFile": false,
+      "isDir": true,
+      "file": "register",
+      "filepath": "/register",
+      "name": "register",
+      "ext": "",
+      "badExt": false,
+      "absolutePath": "/home/brandon/sveltekit/svelteseq/src/pages/register",
+      "children": [
+        {
+          "isFile": true,
+          "isDir": false,
+          "file": "index.svelte",
+          "filepath": "/register/index.svelte",
+          "name": "index",
+          "ext": "svelte",
+          "badExt": false,
+          "absolutePath": "/home/brandon/sveltekit/svelteseq/src/pages/register/index.svelte",
+          "importPath": "../src/pages/register/index.svelte",
+          "isLayout": false,
+          "isReset": false,
+          "isIndex": true,
+          "isFallback": false,
+          "isPage": true,
+          "ownMeta": {},
+          "meta": {
+            "recursive": true,
+            "preload": "proximity",
+            "prerender": true
+          },
+          "path": "/register/index",
+          "id": "_register_index",
+          "component": () => import('../src/pages/register/index.svelte').then(m => m.default)
+        }
+      ],
+      "isLayout": false,
+      "isReset": false,
+      "isIndex": false,
+      "isFallback": false,
+      "isPage": false,
+      "ownMeta": {},
+      "meta": {
+        "recursive": true,
+        "preload": "proximity",
+        "prerender": true
+      },
+      "path": "/register"
     }
   ],
   "isLayout": true,

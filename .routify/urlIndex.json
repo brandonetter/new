@@ -23,5 +23,7 @@
   "/example/transitions/tabs/feed/index",
   "/example/transitions/tabs/updates",
   "/example/transitions/tabs/settings",
-  "/index"
+  "/index",
+  "/login/index",
+  "/register/index"
 ]
