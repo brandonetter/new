@@ -1,11 +1,11 @@
 
 /**
  * @roxi/routify 2.18.8
- * File generated Wed Dec 07 2022 04:19:05 GMT-0500 (Eastern Standard Time)
+ * File generated Wed Dec 07 2022 19:30:01 GMT-0500 (Eastern Standard Time)
  */
 
 export const __version = "2.18.8"
-export const __timestamp = "2022-12-07T09:19:05.612Z"
+export const __timestamp = "2022-12-08T00:30:01.815Z"
 
 //buildRoutes
 import { buildClientTree } from "@roxi/routify/runtime/buildRoutes"
@@ -1403,6 +1403,55 @@ export const _tree = {
       "path": "/example",
       "id": "_example__reset",
       "component": () => import('../src/pages/example/_reset.svelte').then(m => m.default)
+    },
+    {
+      "isFile": false,
+      "isDir": true,
+      "file": "home",
+      "filepath": "/home",
+      "name": "home",
+      "ext": "",
+      "badExt": false,
+      "absolutePath": "/home/brandon/sveltekit/svelteseq/src/pages/home",
+      "children": [
+        {
+          "isFile": true,
+          "isDir": false,
+          "file": "index.svelte",
+          "filepath": "/home/index.svelte",
+          "name": "index",
+          "ext": "svelte",
+          "badExt": false,
+          "absolutePath": "/home/brandon/sveltekit/svelteseq/src/pages/home/index.svelte",
+          "importPath": "../src/pages/home/index.svelte",
+          "isLayout": false,
+          "isReset": false,
+          "isIndex": true,
+          "isFallback": false,
+          "isPage": true,
+          "ownMeta": {},
+          "meta": {
+            "recursive": true,
+            "preload": "proximity",
+            "prerender": true
+          },
+          "path": "/home/index",
+          "id": "_home_index",
+          "component": () => import('../src/pages/home/index.svelte').then(m => m.default)
+        }
+      ],
+      "isLayout": false,
+      "isReset": false,
+      "isIndex": false,
+      "isFallback": false,
+      "isPage": false,
+      "ownMeta": {},
+      "meta": {
+        "recursive": true,
+        "preload": "proximity",
+        "prerender": true
+      },
+      "path": "/home"
     },
     {
       "isFile": true,

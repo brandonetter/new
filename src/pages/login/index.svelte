@@ -19,7 +19,7 @@
 
 
     const submit =async(e)=>{
-        if(e.key && e.key!="Enter") return;
+        if(e.key!="Enter") return;
 
         response = await fetch("/api/auth/login",{
             method:"POST",
@@ -32,7 +32,7 @@
             $notify = response.code;
             $notifyMessage = "Successfully Logged In"
             console.log(response.token);
-            $goto("/login");
+            $goto("/home");
         }
         if(response.code ==="failure"){
             $notify = response.code;
@@ -49,8 +49,9 @@
 <label for='password'>Password</label>
 <input id='password' name='password' on:keydown={submit} bind:value={passwordValue} placeholder='Password' type='password'/>
 
-<button on:mousedown={submit}>Login</button>
+<button on:mousedown={(e)=>{e.key="Enter";submit(e)}}>Login</button>
 </div>
+<a href='/register'>Register</a>
 </main>
 <style>
 

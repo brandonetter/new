@@ -113,6 +113,8 @@
 {/if}
 <button disabled={!usernameValid||!passwordValid} on:mousedown={submit}>Submit</button>
 </div>
+
+<a href='/login'>Login</a>
 </main>
 <style>
 
