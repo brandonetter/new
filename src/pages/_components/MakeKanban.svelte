@@ -1,6 +1,7 @@
 <script>
     import { goto } from '@roxi/routify'
     import {marked} from "marked";
+    import {notify,notifyMessage} from './../../stores';
     let username = '';
     let showForm = false;
     let title;
@@ -19,13 +20,24 @@
         }
     };
     const saveKanban=async()=>{
+        try{
         let response = await fetch("/api/kanban",{
             method:"POST",
             headers:{"Content-type":"application/json"},
-            body:JSON.stringify({name:title.innerText,cols:columnNames})
+            body:JSON.stringify({name:title.innerText,cols:columnNames.slice(0,numCols)})
         });
         response = await response.json();
-        console.log(response);
+        if(response.id){
+            $notifyMessage = "Kanban '"+title.innerText+"' Created";
+            $notify="success";
+        }else{
+            $notifyMessage = "Failure";
+            $notify="failure";
+        }
+    }catch{
+        $notifyMessage = "Failure";
+            $notify="failure";
+    }
     }
     const markdown = (e,c) =>{
         if(e.key=="Enter"){
@@ -93,7 +105,7 @@
             text-align:center;
             min-width:fit-content;
 
-            height:30px;
+            height:25vh;
         }
         .columnHolder{
             display:flex;
