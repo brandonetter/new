@@ -4,6 +4,7 @@
     export let title;
     export let cols;
     export let data;
+    export let save;
     let draggable;
     let kanban;
     let items;
@@ -28,8 +29,23 @@ const drop = (e)=>{
       break;
     }
   };
-   console.log('drop');
+  kanbanCalc();
 };
+const kanbanCalc =  (element=kanban,ob = {}) =>{
+    let listItems = kanban.querySelectorAll("li");
+    let arr = [];
+    [...listItems].forEach(element=>{ 0,1
+        let checks = [];
+        let possibleChecks = element?.children;
+        for(let check in [...possibleChecks]){
+            if(possibleChecks[check]?.children[0]?.checked != undefined) checks.push(possibleChecks[check]?.children[0]?.checked);
+        }
+
+        arr.push({el:element.innerText,...(checks.length && {checkbox:checks})});
+    });
+    save({id:_id,cols:cols.cols,data:arr});
+
+}
 const dragEnd = (e)=>{
   console.log('dragEnd');
    draggable.classList.remove("dragging");
@@ -52,7 +68,6 @@ let listItems;
 onMount(()=>{
     listItems = document.querySelectorAll("li");
   [...listItems].forEach(e=>{
-    console.log(e.getAttribute('drag'))
   e.draggable = e.getAttribute('drag')?false:true;
   e.addEventListener("drop",drop);
   e.addEventListener("dragstart",dragStart);
@@ -65,16 +80,40 @@ onMount(()=>{
     button.addEventListener("dragover",(e)=>e.stopPropagation());
     button.addEventListener("dragenter",(e)=>e.stopPropagation());
 
-  })
-})
+  });
 
+
+})
+let datum = cols.data;
+  console.log(datum);
+  let _current = 0;
+  if(Object.keys(datum).length){
+  for(let i of datum){
+    if(i.el.startsWith("add item")){
+        let curCol = i.el.split("add item");
+        _current = cols.cols.indexOf(curCol[1]);
+    }
+    if(i.el.startsWith("Add\n")){
+        let items = i.el.split("Add\n");
+        let allItems = items[1].split("\n");
+        let itemArray = [];
+        for(let index in allItems){
+            itemArray.push([allItems[index],i?.checkbox[index]]);
+
+        }
+            addItem(_current,null,itemArray);
+
+    }
+  }
+}
 });
     let rows = Array(cols.cols.length).fill(2);
-    const addItem=(i,button)=>{
+    const addItem=(i,button,itemArray)=>{
         let element = document.createElement("li");
+        console.log(i);
         element.draggable = true;
 
-        element.style=`list-style:none;border:2px solid gray;padding:0.4rem;height:fit-content;min-height:75px;position:relative;`;
+        element.style=`list-style:none;border:2px solid gray;width:14rem;padding:0.4rem;height:fit-content;min-height:75px;position:relative;`;
         element.addEventListener("drop",drop);
         element.addEventListener("dragstart",dragStart);
         element.addEventListener("dragend",dragEnd);
@@ -87,17 +126,96 @@ onMount(()=>{
         buttonEdit.addEventListener("dragover",(e)=>e.stopPropagation());
         buttonEdit.addEventListener("dragenter",(e)=>e.stopPropagation());
         buttonEdit.innerText = "Add";
+
         buttonEdit.addEventListener("click",(e)=>{
             let item = document.createElement("div");
-            item.innerHTML = `
-                <div style='display:flex;flex-direction:row;gap:1rem;align-items:center;'><input type="checkbox" style='height:1rem' /> <div contenteditable style='height:2rem'>Item</div></div>
-            `;
+            let checked='checked';
+            let checkBox = document.createElement("input");
+            checkBox.setAttribute("type","checkbox");
+            let text = document.createElement("div");
+            text.setAttribute("contenteditable","true");
+            text.innerText = "New Item";
+            text.style.display = "inline";
+            text.style.position = "relative";
+            item.style.width='11rem';
+
+            item.style.overflowWrap='anywhere';
+            item.style.wordBreak = 'break-all';
+            item.style.margin='1rem';
+            item.style.border = "1px solid #22222212";
+            item.style.borderRadius='2px';
+            item.style.padding = "0.5rem";
+            item.style.display = "flex";
+
+            item.appendChild(checkBox);
+            item.appendChild(text);
             element.appendChild(item);
+            item.addEventListener("keydown",(e)=>{
+                if(e.key==="Enter"){
+                    document.activeElement.blur();
+                }
+            });
+            checkBox.addEventListener("change",()=>{
+                !checkBox.checked?
+                (text.style.opacity = 1,text.style.textDecoration='none'):
+                (text.style.opacity = 0.5,text.style.textDecoration='line-through');
+            });
+            item.addEventListener("drop",(e)=>e.preventDefault());
+            item.addEventListener("dragover",(e)=>e.stopPropagation());
+            item.addEventListener("dragenter",(e)=>e.stopPropagation());
+            checkBox.addEventListener("drop",(e)=>e.preventDefault());
+            checkBox.addEventListener("dragover",(e)=>e.stopPropagation());
+            checkBox.addEventListener("dragenter",(e)=>e.stopPropagation());
 
         })
         element.appendChild(buttonEdit);
+        if(itemArray){
+            for(let items of itemArray){
+            let item = document.createElement("div");
+            let checked='checked';
+            let checkBox = document.createElement("input");
+            checkBox.setAttribute("type","checkbox");
+            let text = document.createElement("div");
+            text.setAttribute("contenteditable","true");
+            text.innerText = items[0];
+            text.style.display = "inline";
+            text.style.position = "relative";
+            item.style.width='11rem';
+
+            item.style.overflowWrap='anywhere';
+            item.style.wordBreak = 'break-all';
+            item.style.margin='1rem';
+            item.style.border = "1px solid #22222212";
+            item.style.borderRadius='2px';
+            item.style.padding = "0.5rem";
+            item.style.display = "flex";
+
+            item.appendChild(checkBox);
+            item.appendChild(text);
+            element.appendChild(item);
+            item.addEventListener("keydown",(e)=>{
+                if(e.key==="Enter"){
+                    document.activeElement.blur();
+                }
+            });
+            checkBox.addEventListener("change",()=>{
+                !checkBox.checked?
+                (text.style.opacity = 1,text.style.textDecoration='none'):
+                (text.style.opacity = 0.5,text.style.textDecoration='line-through');
+            });
+            checkBox.checked = items[1];
+            item.addEventListener("drop",(e)=>e.preventDefault());
+            item.addEventListener("dragover",(e)=>e.stopPropagation());
+            item.addEventListener("dragenter",(e)=>e.stopPropagation());
+            checkBox.addEventListener("drop",(e)=>e.preventDefault());
+            checkBox.addEventListener("dragover",(e)=>e.stopPropagation());
+            checkBox.addEventListener("dragenter",(e)=>e.stopPropagation());
+            element.appendChild(item);
+        }
+    }
         kanban.children[i].appendChild(element);
        // kanban.insertBefore(element,kanban.nextSi)
+
     }
     let colStyle = (function(){
         let ret = '';
@@ -108,15 +226,15 @@ onMount(()=>{
         for(let i =1;i<rows;i++){
             rowsret+="1fr ";
         }
-        return "grid-template-columns: "+ret.substring(0,ret.length-1)+";grid-template-rows: "+rowsret.substring(0,rowsret.length-1)+";transform:scale(80%);";
+        return "grid-template-columns: "+ret.substring(0,ret.length-1)+";grid-template-rows: "+rowsret.substring(0,rowsret.length-1)+";";
     })();
     console.log(colStyle);
 </script>
 {_id} {title}
 <div bind:this={kanban} class='kanban' style={colStyle} >
    {#each cols.cols as col,i}
-   <div>
-    <li drag=true style='text-align:center;font-size:2rem;border-bottom:2px solid black'><button ondrop={(e)=>e.preventDefault()} on:mousedown={()=>addItem(i)}>add item</button>{col}</li>
+   <div style='display:flex;flex-direction:column;align-items:center;gap:0.3rem;'>
+    <li drag=true style='text-align:center;font-size:2rem;border-bottom:2px solid black;'><button ondrop={(e)=>e.preventDefault()} on:mousedown={()=>addItem(i)}>add item</button>{col}</li>
 
 
 
@@ -126,10 +244,9 @@ onMount(()=>{
     </div>
    {/each}
 
-   {#each cols.cols as col,i}
 
-   {/each}
 </div>
+<button style='transform:translateY(-150%)' on:click={kanbanCalc}>Save</button>
 
 <style>
     li{
@@ -150,4 +267,21 @@ onMount(()=>{
     li:not([drag=true]){
         border:2px solid red;
     }
+    :global(input){
+        min-width:20px;
+        min-height:20px;
+        margin-right:1rem;
+    }
+    :global(div){
+        background-color:gray;
+    }
+    :global(div>li){
+        background-color:#6A6A6A;
+        border-radius:0.4rem;
+        padding:1rem;
+    }
+    :global(div>li>div){
+        background-color:gray;
+    }
+
 </style>

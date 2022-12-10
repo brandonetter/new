@@ -25,6 +25,14 @@ authRoute.get("/", async (req, res) => {
   }
   //res.json();
 });
+authRoute.put("/", async (req, res) => {
+  //console.log(req.body);
+  let kb = await kanban.findOne({ where: { id: req.body.id } });
+  let data = { cols: req.body.cols, data: req.body.data };
+  kb.data = JSON.stringify(data);
+  await kb.save();
+  console.log(kb);
+});
 authRoute.post("/", async (req, res) => {
   try {
     let token = req.cookies.token;

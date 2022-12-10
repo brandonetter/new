@@ -18,6 +18,13 @@
     $:{
         kanbans = resArray;
     }
+    const kanbanSave = async (data)=>{
+        let response = await fetch("/api/kanban",{
+            method:"PUT",
+            headers:{"Content-type":"application/json"},
+            body:JSON.stringify(data)
+        })
+    }
     const getKanbans = async() =>{
         let response = await fetch("/api/kanban/");
         response = await response.json();
@@ -25,13 +32,12 @@
         for(let i in response){
             resArray.push({kanban:response[i]});
         }
-        setTimeout(getKanbans,4000);
     }
     </script>
     {#await auth()}
     {:then}
     {#each kanbans as kanban}
-    <Kanban _id={kanban.kanban.id} title={kanban.kanban.name} cols={JSON.parse(kanban.kanban.data)} />
+    <Kanban _id={kanban.kanban.id} title={kanban.kanban.name} cols={JSON.parse(kanban.kanban.data)} save={kanbanSave} />
 
     {/each}
 
